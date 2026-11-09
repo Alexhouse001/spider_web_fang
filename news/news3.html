@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运动会圆满落幕：青春在赛场飞扬 - 校园资讯小站</title>
+    <style>
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; margin: 0; background: #fff7f0; color: #5b4636; }
+        .header { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #fff; padding: 18px 40px; }
+        .header a { color: #fff; text-decoration: none; font-weight: bold; }
+        .container { max-width: 800px; margin: 24px auto; background: #fff; padding: 32px; border-radius: 20px; box-shadow: 0 4px 16px rgba(255,154,158,.15); border: 2px solid #ffe3ec; }
+        h1 { color: #e0617d; font-size: 24px; margin-top: 0; }
+        .meta { color: #c9a98f; font-size: 13px; border-bottom: 2px dashed #ffd1a6; padding-bottom: 14px; margin-bottom: 20px; }
+        #vsb_content p { line-height: 1.9; text-indent: 2em; }
+        #vsb_content img { max-width: 100%; border-radius: 14px; }
+        .footer { text-align: center; color: #c9a98f; padding: 20px; font-size: 13px; }
+        .tip { background: #fff0f5; border: 2px dashed #ffb6c1; border-radius: 12px; padding: 12px 16px; margin: 20px 0 0; font-size: 13px; color: #c96a80; line-height: 1.8; }
+        .tip .tip-title { font-weight: bold; color: #e0617d; font-size: 14px; }
+        .tip code { background: #ffe3ec; padding: 1px 7px; border-radius: 5px; color: #d4496b; font-family: "Consolas", monospace; font-size: 12px; }
+        .tip pre { background: #fff; border: 1px solid #ffd1a6; border-radius: 8px; padding: 10px 14px; overflow-x: auto; font-family: "Consolas", monospace; font-size: 12px; color: #5b4636; margin: 8px 0 0; }
+    </style>
+</head>
+<body>
+
+<div class="header"><a href="../index.html">← 返回首页 🏠</a></div>
+
+<div class="container">
+    <h1>运动会圆满落幕：青春在赛场飞扬 🏃</h1>
+    <div class="meta">发布时间：2026-09-20　来源：校园资讯小站　点击：1530</div>
+
+    <div id="vsb_content">
+        <p>经过两天的激烈角逐，我校2026年秋季运动会于9月20日下午圆满落幕。本届运动会共设田径、球类、趣味运动等多个大项，参赛人数创历史新高。🏅</p>
+        <p>赛场上，运动健儿们顽强拼搏、奋勇争先，充分展现了当代大学生朝气蓬勃的精神风貌。观众席上加油声、欢呼声此起彼伏。📣</p>
+        <p><img data-type="png" data-src="../images/campus3.png" src="../images/campus3.png" alt="运动会现场" /></p>
+        <p>在闭幕式上，学校为获得团体总分前三名的代表队颁发了奖杯，并评选出"体育道德风尚奖"等集体荣誉。🏆</p>
+        <p>运动会虽已落幕，但拼搏进取的体育精神将激励全体师生继续前行。💪✨</p>
+    </div>
+
+    <div class="tip">
+        <div class="tip-title">🐞 爬虫小课堂 · 这是一张「新闻详情页」</div>
+        首页只给标题和链接，点击后才进入这个详情页，正文才在这里。
+        所以 Scrapy 爬虫通常分两步走：<br>
+        1️⃣ <code>parse()</code> 在<strong>列表页</strong>抓取每条新闻的链接；<br>
+        2️⃣ 对每个链接发起新请求，用 <code>each_page()</code> 在<strong>详情页</strong>提取标题、正文和图片。<br>
+        <pre># 提取标题
+title = response.xpath('//h1//text()').get()
+# 定位正文容器
+div = response.xpath('//div[@id="vsb_content"]')[0]
+# 提取正文里所有段落文字
+content = div.xpath('.//p//text()').getall()
+# 提取图片地址
+imgs = div.xpath('.//img/@src').getall()</pre>
+        🔎 请在源代码里找到：标题在哪个标签里？正文又在哪个 <code>div</code> 里（它的 id 是什么）？
+    </div>
+</div>
+
+<div class="footer">🐾 校园资讯小站 · 教学演示站点 🐾</div>
+
+</body>
+</html>

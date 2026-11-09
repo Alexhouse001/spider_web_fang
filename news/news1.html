@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我校举行2026年秋季开学典礼 - 校园资讯小站</title>
+    <style>
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; margin: 0; background: #fff7f0; color: #5b4636; }
+        .header { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #fff; padding: 18px 40px; }
+        .header a { color: #fff; text-decoration: none; font-weight: bold; }
+        .container { max-width: 800px; margin: 24px auto; background: #fff; padding: 32px; border-radius: 20px; box-shadow: 0 4px 16px rgba(255,154,158,.15); border: 2px solid #ffe3ec; }
+        h1 { color: #e0617d; font-size: 24px; margin-top: 0; }
+        .meta { color: #c9a98f; font-size: 13px; border-bottom: 2px dashed #ffd1a6; padding-bottom: 14px; margin-bottom: 20px; }
+        #vsb_content p { line-height: 1.9; text-indent: 2em; }
+        #vsb_content img { max-width: 100%; border-radius: 14px; }
+        .footer { text-align: center; color: #c9a98f; padding: 20px; font-size: 13px; }
+        .tip { background: #fff0f5; border: 2px dashed #ffb6c1; border-radius: 12px; padding: 12px 16px; margin: 20px 0 0; font-size: 13px; color: #c96a80; line-height: 1.8; }
+        .tip .tip-title { font-weight: bold; color: #e0617d; font-size: 14px; }
+        .tip code { background: #ffe3ec; padding: 1px 7px; border-radius: 5px; color: #d4496b; font-family: "Consolas", monospace; font-size: 12px; }
+        .tip pre { background: #fff; border: 1px solid #ffd1a6; border-radius: 8px; padding: 10px 14px; overflow-x: auto; font-family: "Consolas", monospace; font-size: 12px; color: #5b4636; margin: 8px 0 0; }
+    </style>
+</head>
+<body>
+
+<div class="header"><a href="../index.html">← 返回首页 🏠</a></div>
+
+<div class="container">
+    <!-- 新闻标题（Scrapy 案例用 //h1//text() 提取） -->
+    <h1>我校举行2026年秋季开学典礼 🎉</h1>
+    <div class="meta">发布时间：2026-09-01　来源：校园资讯小站　点击：1280</div>
+
+    <!-- 新闻正文（Scrapy 案例用 //div[@id="vsb_content"] 定位） -->
+    <div id="vsb_content">
+        <p>金秋九月，丹桂飘香。9月1日上午，我校2026年秋季开学典礼在运动场隆重举行，全校师生齐聚一堂，共同迎接新学期的到来。🍂</p>
+        <p>校长在致辞中回顾了过去一年学校在教育教学、科研创新等方面取得的丰硕成果，并对全体同学提出殷切期望：希望大家志存高远、脚踏实地，在新学期取得更大进步。💪</p>
+        <p><img data-type="png" data-src="../images/campus1.png" src="../images/campus1.png" alt="开学典礼现场" /></p>
+        <p>典礼上，教师代表和学生代表分别发言，表达了对新学期的美好祝愿。随后，学校对上一学年的优秀学生进行了表彰。🏆</p>
+        <p>开学典礼在热烈的掌声中落下帷幕。新学期，新起点，全体师生将以更加饱满的热情投入到学习和工作中。✨</p>
+    </div>
+
+    <div class="tip">
+        <div class="tip-title">🐞 爬虫小课堂 · 这是一张「新闻详情页」</div>
+        首页只给标题和链接，点击后才进入这个详情页，正文才在这里。
+        所以 Scrapy 爬虫通常分两步走：<br>
+        1️⃣ <code>parse()</code> 在<strong>列表页</strong>抓取每条新闻的链接；<br>
+        2️⃣ 对每个链接发起新请求，用 <code>each_page()</code> 在<strong>详情页</strong>提取标题、正文和图片。<br>
+        <pre># 提取标题
+title = response.xpath('//h1//text()').get()
+# 定位正文容器
+div = response.xpath('//div[@id="vsb_content"]')[0]
+# 提取正文里所有段落文字
+content = div.xpath('.//p//text()').getall()
+# 提取图片地址
+imgs = div.xpath('.//img/@src').getall()</pre>
+        🔎 请在源代码里找到：标题在哪个标签里？正文又在哪个 <code>div</code> 里（它的 id 是什么）？
+    </div>
+</div>
+
+<div class="footer">🐾 校园资讯小站 · 教学演示站点 🐾</div>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 校园资讯小站 —— Python爬虫练习站</title>
+    <!--
+    ============================================================
+    这是给《Python程序设计》第11章"网络爬虫"课程使用的练习页面。
+    说明：本页面是老师自行搭建的测试站点，内容全部为虚构示例，
+    仅供教学练习爬取使用，不涉及任何真实个人信息或商业数据。
+    学生可以放心练习：查看源代码、提取链接、提取图片、提取列表等。
+    ============================================================
+    -->
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            margin: 0; padding: 0;
+            background: #fff7f0;
+            color: #5b4636;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #fff;
+            padding: 28px 40px;
+            text-align: center;
+        }
+        .header h1 { margin: 0; font-size: 32px; text-shadow: 2px 2px 0 rgba(0,0,0,.08); }
+        .header p { margin: 10px 0 0; font-size: 14px; opacity: .95; }
+        .nav {
+            background: #ffd1a6;
+            padding: 12px 40px;
+            text-align: center;
+        }
+        .nav a {
+            color: #8a5a3b; text-decoration: none;
+            margin: 0 16px; font-weight: bold;
+            transition: .2s;
+        }
+        .nav a:hover { color: #e0617d; }
+        .container { max-width: 1000px; margin: 26px auto; padding: 0 20px; }
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 22px; margin-bottom: 22px;
+            box-shadow: 0 4px 16px rgba(255,154,158,.15);
+            border: 2px solid #ffe3ec;
+        }
+        .card h2 {
+            color: #e0617d;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 3px dashed #ffd1a6;
+        }
+        .news-list { list-style: none; padding: 0; }
+        .news-list li { padding: 13px 0; border-bottom: 1px dashed #ffe3ec; }
+        .news-list li:last-child { border-bottom: none; }
+        .news-list a { text-decoration: none; color: #5b4636; font-size: 16px; font-weight: bold; }
+        .news-list a:hover { color: #e0617d; }
+        .news-list .date { color: #c9a98f; font-size: 13px; margin-left: 12px; }
+        .color-list { padding-left: 22px; }
+        .color-list li { margin: 8px 0; font-size: 15px; }
+        .color-list li::marker { color: #ff9a9e; }
+        table { border-collapse: collapse; width: 100%; }
+        table th, table td { border: 1px solid #ffe3ec; padding: 9px 12px; text-align: center; }
+        table th { background: #fff0f5; color: #e0617d; }
+        table tr:nth-child(even) { background: #fffaf7; }
+        img.demo { max-width: 220px; border-radius: 14px; border: 3px solid #ffe3ec; }
+        .footer {
+            text-align: center; color: #c9a98f;
+            padding: 22px; font-size: 13px;
+        }
+
+        /* ===== 爬虫小课堂知识点卡片 ===== */
+        .tip {
+            background: #fff0f5;
+            border: 2px dashed #ffb6c1;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #c96a80;
+            line-height: 1.8;
+        }
+        .tip .tip-title { font-weight: bold; color: #e0617d; font-size: 14px; }
+        .tip code {
+            background: #ffe3ec;
+            padding: 1px 7px;
+            border-radius: 5px;
+            color: #d4496b;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 12px;
+        }
+        .tip pre {
+            background: #fff;
+            border: 1px solid #ffd1a6;
+            border-radius: 8px;
+            padding: 10px 14px;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 12px;
+            color: #5b4636;
+            margin: 8px 0 0;
+        }
+        .hero-tip {
+            background: #fff0f5;
+            border: 2px dashed #ffb6c1;
+            border-radius: 16px;
+            max-width: 1000px;
+            margin: 20px auto 0;
+            padding: 16px 22px;
+            font-size: 14px;
+            color: #c96a80;
+            line-height: 1.8;
+        }
+        .hero-tip code { background: #ffe3ec; padding: 1px 7px; border-radius: 5px; color: #d4496b; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🐾 校园资讯小站</h1>
+    <p>这里是一个 Python 爬虫课程的练习小站～所有内容都是虚构的哦，放心爬吧！✨</p>
+</div>
+
+<div class="hero-tip">
+    <strong>🔍 爬虫第一课：写爬虫前，请先「查看网页源代码」</strong><br>
+    在浏览器里按 <code>Ctrl + U</code>（或右键 → 查看网页源代码），
+    你会看到这个网页的 <strong>HTML 源代码</strong>。爬虫的本质，
+    就是让程序去读取并解析这份源代码，再把你要的信息"抠"出来。
+    所以——<strong>不会看源代码，就写不好爬虫</strong>。下面的每一个板块，
+    都藏着一条爬虫知识点，边看边学吧！🐞
+</div>
+
+<div class="nav">
+    <a href="index.html">🏠 首页</a>
+    <a href="news/news1.html">📰 新闻一</a>
+    <a href="news/news2.html">📰 新闻二</a>
+    <a href="news/news3.html">📰 新闻三</a>
+    <a href="#colors">🌈 颜色列表</a>
+    <a href="#books">📚 图书表格</a>
+</div>
+
+<div class="container">
+
+    <!-- 一、新闻列表 -->
+    <div class="card" id="news">
+        <h2>📰 校园新闻列表</h2>
+        <ul class="news-list">
+            <li>
+                <a class="c75870" href="news/news1.html">我校举行2026年秋季开学典礼 🎉</a>
+                <span class="date">2026-09-01</span>
+            </li>
+            <li>
+                <a class="c75870" href="news/news2.html">图书馆推出新学期阅读推广活动 📖</a>
+                <span class="date">2026-09-05</span>
+            </li>
+            <li>
+                <a class="c75870" href="news/news3.html">运动会圆满落幕：青春在赛场飞扬 🏃</a>
+                <span class="date">2026-09-20</span>
+            </li>
+        </ul>
+        <div class="tip">
+            <div class="tip-title">🐞 爬虫小课堂 · 认识 a 标签与链接提取</div>
+            <code>&lt;a href="链接地址"&gt;链接文字&lt;/a&gt;</code> 是「超链接」标签：
+            <code>href</code> 属性存的是跳转地址，标签中间的文字是显示在页面上的内容。
+            爬虫要提取新闻列表，就是在源代码里找到这些 <code>&lt;a&gt;</code> 标签，
+            分别取出它们的 <code>href</code>（链接）和文字（标题）。<br>
+            <pre># 用 BeautifulSoup 提取所有新闻标题和链接
+for a in soup.select('a.c75870'):
+    print(a.text, '->', a.get('href'))</pre>
+            🔎 请到源代码里找一找：这里的 a 标签有个共同的 class 叫 <code>c75870</code>，
+            它就是爬虫用来"锁定"新闻链接的标记。
+        </div>
+    </div>
+
+    <!-- 二、颜色列表 -->
+    <div class="card" id="colors">
+        <h2>🌈 颜色列表</h2>
+        <ul id="colors" name="myColor" class="color-list">
+            <li>❤️ 红色</li>
+            <li>💚 绿色</li>
+            <li>💙 蓝色</li>
+            <li>💛 黄色</li>
+            <li>💜 紫色</li>
+        </ul>
+        <div class="tip">
+            <div class="tip-title">🐞 爬虫小课堂 · ul/li 列表与 id 定位</div>
+            <code>&lt;ul&gt;</code>（无序列表）里面套着一堆 <code>&lt;li&gt;</code>（列表项）。
+            这个列表有个 <code>id="colors"</code>，id 在页面里是<strong>唯一的</strong>，
+            所以爬虫常用 id 来精确定位某个元素。<br>
+            <pre># 用 CSS 选择器提取 #colors 下所有 li 的文本
+items = soup.select('#colors li')
+for li in items:
+    print(li.get_text())</pre>
+            🔎 想一想：<code>ul</code> 和 <code>li</code> 是什么关系？谁在谁里面？
+        </div>
+    </div>
+
+    <!-- 三、图书表格 -->
+    <div class="card" id="books">
+        <h2>📚 本周推荐图书</h2>
+        <table border="1">
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>价格</th>
+                <th>馆藏状态</th>
+            </tr>
+            <tr>
+                <td>Python编程从入门到实践</td>
+                <td>Eric Matthes</td>
+                <td>89.00</td>
+                <td>✅ 可借</td>
+            </tr>
+            <tr>
+                <td>流畅的Python</td>
+                <td>Luciano Ramalho</td>
+                <td>139.00</td>
+                <td>📌 已借出</td>
+            </tr>
+            <tr>
+                <td>利用Python进行数据分析</td>
+                <td>Wes McKinney</td>
+                <td>119.00</td>
+                <td>✅ 可借</td>
+            </tr>
+            <tr>
+                <td>爬虫实战：从数据采集到数据清洗</td>
+                <td>崔庆才</td>
+                <td>99.00</td>
+                <td>✅ 可借</td>
+            </tr>
+        </table>
+        <div class="tip">
+            <div class="tip-title">🐞 爬虫小课堂 · table 表格的提取</div>
+            表格由 <code>&lt;table&gt;</code> 包裹，每一行是 <code>&lt;tr&gt;</code>，
+            行里的每个单元格是 <code>&lt;td&gt;</code>（表头用 <code>&lt;th&gt;</code>）。
+            爬虫提取表格，就是先找到所有 <code>tr</code>，再在每一行里取所有 <code>td</code>。<br>
+            <pre># 提取表格每一行的数据
+for tr in soup.select('table tr'):
+    cells = [td.get_text() for td in tr.select('td')]
+    if cells:
+        print(cells)</pre>
+            🔎 观察源代码：<code>th</code> 和 <code>td</code> 有什么不同？
+        </div>
+    </div>
+
+    <!-- 四、图片 -->
+    <div class="card" id="gallery">
+        <h2>📸 校园风光</h2>
+        <p><img class="demo" data-type="png" data-src="images/campus1.png" src="images/campus1.png" alt="校园一景" /></p>
+        <p><img class="demo" data-type="png" data-src="images/campus2.png" src="images/campus2.png" alt="图书馆" /></p>
+        <p><img class="demo" data-type="png" data-src="images/campus3.png" src="images/campus3.png" alt="操场" /></p>
+        <div class="tip">
+            <div class="tip-title">🐞 爬虫小课堂 · 用正则提取图片地址</div>
+            图片标签 <code>&lt;img&gt;</code> 里，真正存放图片网址的属性可能是 <code>src</code>，
+            也可能是 <code>data-src</code>（懒加载时图片地址常放在这里）。
+            爬虫要根据源代码的实际结构来写正则表达式——<strong>先观察，再写规则</strong>。<br>
+            <pre>import re
+pattern = 'data-type="png" data-src="(.+?)"'
+urls = re.findall(pattern, html)</pre>
+            🔎 对比一下：这个页面里 <code>src</code> 和 <code>data-src</code> 的值一样吗？
+            为什么要同时写两个？
+        </div>
+    </div>
+
+    <!-- 五、友情链接 -->
+    <div class="card" id="links">
+        <h2>🔗 友情链接</h2>
+        <ul>
+            <li><a href="https://www.python.org" target="_blank">🐍 Python 官网</a></li>
+            <li><a href="https://www.python.org/doc/" target="_blank">📄 Python 文档</a></li>
+            <li><a href="https://pypi.org" target="_blank">📦 PyPI 包索引</a></li>
+            <li><a href="news/news1.html">🏠 站内新闻一</a></li>
+            <li><a href="news/news2.html">🏠 站内新闻二</a></li>
+        </ul>
+        <div class="tip">
+            <div class="tip-title">🐞 爬虫小课堂 · 提取链接并区分站内/站外</div>
+            一个页面里有很多链接，但爬虫通常只关心某一部分。
+            常见做法是：先把所有 <code>&lt;a&gt;</code> 的 <code>href</code> 提出来，
+            再按条件筛选——比如只保留以 <code>http</code> 开头的<strong>绝对地址</strong>。<br>
+            <pre>links = re.findall(r'<a .*?href="(.+?)"', html)
+for link in links:
+    if link.startswith('http'):
+        print(link)</pre>
+            🔎 想一想：<code>news/news1.html</code> 这种不以 http 开头的叫什么？
+            叫「相对地址」，需要和当前网址拼起来才能用（试试 <code>urljoin</code>）。
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    🐾 校园资讯小站 · 教学演示站点 · 仅用于 Python 爬虫课程练习 🐾
+</div>
+
+</body>
+</html>
